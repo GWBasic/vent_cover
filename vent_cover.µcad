@@ -1,0 +1,37 @@
+use std::geo2d::*;
+use std::ops::*;
+
+const COVER_WIDTH = 291mm;
+const COVER_HEIGHT = 138mm;
+const COVER_DEPTH = 3mm;
+
+const HOLE_WIDTH = 238mm;
+const HOLE_HEIGHT = 88mm;
+
+const NUM_SLATS = 10;
+const FRACTION_OPEN = 3.0 / 4.0;
+
+const DUCT_WIDTH = 246mm;
+const DUCT_HEIGHT = 97mm;
+const DUCT_DEPTH = 45mm;
+
+sketch Top() {
+    top = Rect(width = COVER_WIDTH, height = COVER_HEIGHT);
+
+    slat_hole_width = (HOLE_WIDTH / (NUM_SLATS + 1)) * FRACTION_OPEN;
+    slat_hole = Rect(width = slat_hole_width, height = HOLE_HEIGHT);
+
+    holes = slat_hole.translate(x = ([0..NUM_SLATS] * (HOLE_WIDTH / NUM_SLATS)) - (HOLE_WIDTH / 2));
+
+    top - holes;
+}
+
+sketch Bottom() {
+    duct = Rect(width = DUCT_WIDTH, height = DUCT_HEIGHT);
+    duct_hole = Rect(width = HOLE_WIDTH, height = HOLE_HEIGHT);
+
+    duct - duct_hole;
+}
+
+Top().extrude(COVER_DEPTH);
+Bottom().extrude(-DUCT_DEPTH);
