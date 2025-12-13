@@ -19,27 +19,33 @@ const DUCT_WIDTH = 246mm;
 const DUCT_HEIGHT = 97mm;
 const DUCT_DEPTH = 45mm;
 
+// microcad does not yet have a built-in sqrt(3) function
+const SQRT3 = 1.73205081;
+
 part TopDuct() {
-    angled_duct_height = DUCT_HEIGHT / cos(TOP_DUCT_ANGLE);
-    angled_hole_height = HOLE_HEIGHT / cos(TOP_DUCT_ANGLE);
+    angled_duct = {
+            Rect(width = DUCT_HEIGHT, height = 0mm);
+            Rect(width = 0mm, height = DUCT_HEIGHT)
+                .translate(y = DUCT_HEIGHT / 2, x = DUCT_HEIGHT / 2)
+                .translate(y = TOP_DUCT_DEPTH - DUCT_HEIGHT, x = TOP_DUCT_DEPTH / SQRT3);
+        }
+        .hull()
+        .extrude(DUCT_WIDTH)
+        .rotate(x = 90deg)
+        .rotate(z = 90deg)
+        .translate(x = -DUCT_WIDTH / 2);
 
-    std::print(angled_duct_height);
-
-    duct = Rect(width = DUCT_WIDTH, height = angled_duct_height);
-    duct_hole = Rect(width = HOLE_WIDTH, height = angled_hole_height);
-
-    bottom_corner_lift = (DUCT_HEIGHT / 2) * (sin(90deg)/sin(90deg - TOP_DUCT_ANGLE));
-
-    angled_duct = (duct - duct_hole)
-        .extrude(height = TOP_DUCT_DEPTH)
-        .rotate(x = TOP_DUCT_ANGLE)
-        .translate(z = bottom_corner_lift * 0.5);
-
-    bottom_chop = Rect(width = DUCT_WIDTH * 2, height = angled_duct_height * 2)
-        // Should be .extrude(-1 * TOP_DUCT_DEPTH);,
-        // but I suspect there is either a bug in microcad or I don't understand something
-        .extrude(TOP_DUCT_DEPTH)
-        .translate(z = -1 * TOP_DUCT_DEPTH);
+    bottom_chop = {
+            Rect(width = HOLE_HEIGHT, height = 0mm);
+            Rect(width = 0mm, height = HOLE_HEIGHT)
+                .translate(y = DUCT_HEIGHT / 2, x = DUCT_HEIGHT / 2)
+                .translate(y = TOP_DUCT_DEPTH - DUCT_HEIGHT, x = TOP_DUCT_DEPTH / SQRT3);
+        }
+        .hull()
+        .extrude(HOLE_WIDTH)
+        .rotate(x = 90deg)
+        .rotate(z = 90deg)
+        .translate(x = -HOLE_WIDTH / 2);
 
     angled_duct - bottom_chop;
 }
