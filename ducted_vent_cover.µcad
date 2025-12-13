@@ -6,7 +6,7 @@ const COVER_WIDTH = 291mm;
 const COVER_HEIGHT = 138mm;
 const COVER_DEPTH = 3mm;
 
-const TOP_DUCT_DEPTH = 200mm;
+const TOP_DUCT_DEPTH = 100mm;
 const TOP_DUCT_ANGLE = 30deg;
 
 const HOLE_WIDTH = 238mm;
