@@ -19,18 +19,16 @@ const DUCT_WIDTH = 246mm;
 const DUCT_HEIGHT = 97mm;
 const DUCT_DEPTH = 45mm;
 
-const DUCT_ANGLE = 30deg;
-
 part TopDuct() {
-    angled_duct_height = DUCT_HEIGHT / cos(DUCT_ANGLE);
-    angled_hole_height = HOLE_HEIGHT / cos(DUCT_ANGLE);
+    angled_duct_height = DUCT_HEIGHT / cos(TOP_DUCT_ANGLE);
+    angled_hole_height = HOLE_HEIGHT / cos(TOP_DUCT_ANGLE);
 
     std::print(angled_duct_height);
 
     duct = Rect(width = DUCT_WIDTH, height = angled_duct_height);
     duct_hole = Rect(width = HOLE_WIDTH, height = angled_hole_height);
 
-    bottom_corner_lift = (DUCT_HEIGHT / 2) * (sin(90deg)/sin(90deg - DUCT_ANGLE));
+    bottom_corner_lift = (DUCT_HEIGHT / 2) * (sin(90deg)/sin(90deg - TOP_DUCT_ANGLE));
 
     angled_duct = (duct - duct_hole)
         .extrude(height = TOP_DUCT_DEPTH)
