@@ -1,3 +1,4 @@
+use std::math::*;
 use std::geo2d::*;
 use std::ops::*;
 
@@ -18,25 +19,18 @@ const DUCT_WIDTH = 246mm;
 const DUCT_HEIGHT = 97mm;
 const DUCT_DEPTH = 45mm;
 
-// Because I don't know how to do trig in microcad yet. (Is it supported?)
-const SIN_90_DEG = 1.0;
-const SIN_TOP_DUCT_ANGLE = 0.86602540378; // sin(60deg)
-//const SIN_TOP_DUCT_OTHER_ANGLE = 0.5; // sin(30deg)
-const COS_OTHER_ANGLE = 0.5; // cos(60deg)
-const COS_ANGLE = 0.86602540378; // cos(30deg)
+const DUCT_ANGLE = 30deg;
 
 part TopDuct() {
-    //angled_duct_height = DUCT_HEIGHT * (SIN_90_DEG / SIN_TOP_DUCT_ANGLE);
-    //angled_hole_height = HOLE_HEIGHT * (SIN_90_DEG / SIN_TOP_DUCT_ANGLE);
-    angled_duct_height = DUCT_HEIGHT / COS_ANGLE;
-    angled_hole_height = HOLE_HEIGHT / COS_ANGLE;
+    angled_duct_height = DUCT_HEIGHT / cos(DUCT_ANGLE);
+    angled_hole_height = HOLE_HEIGHT / cos(DUCT_ANGLE);
 
     std::print(angled_duct_height);
 
     duct = Rect(width = DUCT_WIDTH, height = angled_duct_height);
     duct_hole = Rect(width = HOLE_WIDTH, height = angled_hole_height);
 
-    bottom_corner_lift = (DUCT_HEIGHT / 2) * (SIN_90_DEG/SIN_TOP_DUCT_ANGLE);
+    bottom_corner_lift = (DUCT_HEIGHT / 2) * (sin(90deg)/sin(90deg - DUCT_ANGLE));
 
     angled_duct = (duct - duct_hole)
         .extrude(height = TOP_DUCT_DEPTH)
