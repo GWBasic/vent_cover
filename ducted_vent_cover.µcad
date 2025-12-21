@@ -12,8 +12,8 @@ const TOP_DUCT_ANGLE = 30deg;
 const HOLE_WIDTH = 238mm;
 const HOLE_HEIGHT = 88mm;
 
-const NUM_SLATS = 30;
-const FRACTION_OPEN = 1.0 / 2.0;
+const NUM_SLATS = 20;
+const FRACTION_OPEN = 0.75;
 
 const DUCT_WIDTH = 246mm;
 const DUCT_HEIGHT = 97mm;
@@ -56,7 +56,28 @@ part Cover() {
     slat_hole_width = (HOLE_WIDTH / (NUM_SLATS + 1)) * FRACTION_OPEN;
     slat_hole = Rect(width = slat_hole_width, height = HOLE_HEIGHT);
 
-    holes = slat_hole.translate(x = ([0..NUM_SLATS] * (HOLE_WIDTH / NUM_SLATS)) - (HOLE_WIDTH / 2));
+    // Etudes for different numbers of slats
+    // Used to come up with the formula
+    // 1 slat, 2 holes
+    //hole1 = slat_hole.translate(x = -(HOLE_WIDTH / 4));
+    //hole2 = slat_hole.translate(x = (HOLE_WIDTH / 2) - (HOLE_WIDTH / 4));
+    //holes = { hole1; hole2; };
+    
+    // 2 slats, 3 holes
+    //hole1 = slat_hole.translate(x = (HOLE_WIDTH / 6 * 5) - (HOLE_WIDTH / 2));
+    //hole2 = slat_hole.translate(x = (HOLE_WIDTH / 6 * 3) - (HOLE_WIDTH / 2));
+    //hole3 = slat_hole.translate(x = (HOLE_WIDTH / 6 * 1) - (HOLE_WIDTH / 2));
+    //holes = { hole1; hole2; hole3; };
+
+    // 3 slats, 4 holes
+    //hole1 = slat_hole.translate(x = (HOLE_WIDTH / 8 * 7) - (HOLE_WIDTH / 2));
+    //hole2 = slat_hole.translate(x = (HOLE_WIDTH / 8 * 5) - (HOLE_WIDTH / 2));
+    //hole3 = slat_hole.translate(x = (HOLE_WIDTH / 8 * 3) - (HOLE_WIDTH / 2));
+    //hole4 = slat_hole.translate(x = (HOLE_WIDTH / 8 * 1) - (HOLE_WIDTH / 2));
+    //holes = { hole1; hole2; hole3; hole4; };
+
+    num_holes = NUM_SLATS + 1;
+    holes = slat_hole.translate(x = (HOLE_WIDTH / (num_holes * 2)) * (([1..num_holes] * 2) - 1) - (HOLE_WIDTH / 2));
 
     (top - holes)
         .extrude(COVER_DEPTH)
