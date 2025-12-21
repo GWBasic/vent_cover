@@ -9,15 +9,17 @@ const COVER_DEPTH = 3mm;
 const TOP_DUCT_DEPTH = 100mm;
 const TOP_DUCT_ANGLE = 30deg;
 
-const HOLE_WIDTH = 238mm;
-const HOLE_HEIGHT = 88mm;
+const DUCT_WIDTH = 296mm;
+const DUCT_HEIGHT = 99mm;
+const DUCT_DEPTH = 45mm;
+
+const THICKNESS = 4mm;
+
+const HOLE_WIDTH = DUCT_WIDTH - (THICKNESS * 2);
+const HOLE_HEIGHT = DUCT_HEIGHT - (THICKNESS * 2);
 
 const NUM_SLATS = 20;
 const FRACTION_OPEN = 0.75;
-
-const DUCT_WIDTH = 246mm;
-const DUCT_HEIGHT = 97mm;
-const DUCT_DEPTH = 45mm;
 
 // microcad does not yet have a built-in sqrt(3) function
 const SQRT3 = 1.73205081;
